@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title></title>
+
+<script>
+
+var GmailChecker =
+{
+	/**
+	* Holds the interval id.
+	*/
+	
+	intervalId : 0,
+	
+	/**
+	* Event listener that handles button clicks.
+	*
+	* @param event
+	*/
+	
+	commandHandler : function(event)
+	{
+		if(event.command === "gmail")
+		{
+			var open_in = safari.extension.settings.getItem("open_in");
+			
+			if(open_in == "existing_active" || open_in == "existing_any")
+			{
+				var windows = (open_in == "existing_active") ? new Array(safari.application.activeBrowserWindow) : safari.application.browserWindows;
+				
+				for(var wi in windows)
+				{
+					for(var ti in windows[wi].tabs)
+					{
+						if(windows[wi].tabs[ti].url == undefined)
+						{
+							continue; // No valid url so skip to next iteration
+						}
+
+						if(windows[wi].tabs[ti].url.indexOf("https://mail.google.com") == 0)
+						{							
+							windows[wi].activate();
+							
+							windows[wi].tabs[ti].activate();
+
+							return; // We found what we were looking for
+						}
+					}
+				}
+			}
+			
+			if(open_in == "new" || open_in == "existing_active" || open_in == "existing_any")
+			{
+				safari.application.activeBrowserWindow.openTab("foreground", safari.application.activeBrowserWindow.tabs.length + 1);
+			}
+			
+			safari.application.activeBrowserWindow.activeTab.url = "https://gmail.com";
+		}
+	},
+	
+	/**
+	* Event listener that handles changes in settings.
+	*
+	* @param event
+	*/
+	
+	changeHandler : function(event)
+	{
+		if(event.key === "interval")
+		{
+			clearInterval(GmailChecker.intervalId);
+			
+			GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
+		}
+	},
+	
+	/**
+	* Checks inbox and updates the button badge and tooltip accordingly.
+	*
+	* @TODO See if there is a better way to check if someone is logged in instead of using the nasty 404 hack.
+	*/
+	
+	checkInbox : function()
+	{
+		var xhr1 = new XMLHttpRequest();
+		
+		xhr1.onreadystatechange = function()
+		{
+			if(xhr1.readyState == 4)
+			{
+				if(xhr1.status == 404)
+				{
+					// Logged in
+					
+					var xhr2 = new XMLHttpRequest();
+
+					xhr2.onreadystatechange = function()
+					{
+						if(xhr2.readyState == 4)
+						{
+							if(xhr2.status == 200)
+							{
+								var toolTip = "Gmail Inbox";
+								
+								var unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
+								
+								var emails = xhr2.responseXML.documentElement.getElementsByTagName("entry");
+								
+								// Get subject of 5 latest unread e-mails
+								
+								if(unread > 0)
+								{
+									toolTip = new Array();
+
+									for(var i = 0; i < Math.min(emails.length, 5); i++)
+									{
+										if(emails[i].childNodes[1].firstChild == null)
+										{
+											toolTip.push("- (no subject)");
+										}
+										else
+										{
+											var subject = emails[i].childNodes[1].firstChild.nodeValue;
+											
+											if(subject.length > 50)
+											{
+												subject = subject.substr(0, 45) + "...";
+											}
+											
+											toolTip.push("- " + subject);
+										}
+									}
+
+									toolTip = toolTip.join("\n");
+								}
+								
+								// Update button in all windows
+
+								for(var i in safari.extension.toolbarItems)
+								{
+									safari.extension.toolbarItems[i].badge = unread;
+									safari.extension.toolbarItems[i].toolTip = toolTip;
+									safari.extension.toolbarItems[i].image = safari.extension.baseURI + "button.png";
+								}
+							}
+							else
+							{
+								// Update button in all windows
+								
+								for(var i in safari.extension.toolbarItems)
+								{
+									safari.extension.toolbarItems[i].badge = 0;
+									safari.extension.toolbarItems[i].toolTip = "Gmail Inbox";
+									safari.extension.toolbarItems[i].image = safari.extension.baseURI + "button.png";
+								}
+							}
+						}
+					}
+
+					xhr2.open("GET", "https://mail.google.com/mail/feed/atom", true);
+
+					xhr2.send(null);
+				}
+				else
+				{
+					// Logged out
+					
+					for(var i in safari.extension.toolbarItems)
+					{
+						safari.extension.toolbarItems[i].badge = 0;
+						safari.extension.toolbarItems[i].toolTip = "Gmail Inbox";
+						safari.extension.toolbarItems[i].image = safari.extension.baseURI + "button_faded.png";
+					}
+				}
+			}
+		};
+		
+		xhr1.open("GET", "https://mail.google.com/mail/?view=ac", true);
+		
+		xhr1.send(null);
+	},
+	
+	/**
+	* Initiates the GmailChecker.
+	*/
+	
+	init : function()
+	{
+		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
+		
+		safari.application.addEventListener("command", GmailChecker.commandHandler, false);
+		safari.extension.settings.addEventListener("change", GmailChecker.changeHandler, false);
+		
+		GmailChecker.checkInbox();
+	}
+};
+
+GmailChecker.init();
+
+</script>
+
+</head>
+
+<body></body>
+
+</html>

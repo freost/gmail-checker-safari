@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>DefaultValue</key>
+		<string>existing_any</string>
+		<key>Key</key>
+		<string>open_in</string>
+		<key>Title</key>
+		<string>Open in</string>
+		<key>Titles</key>
+		<array>
+			<string>new tab</string>
+			<string>active tab</string>
+			<string>existing Gmail tab in active window</string>
+			<string>existing Gmail tab in any window</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>new</string>
+			<string>active</string>
+			<string>existing_active</string>
+			<string>existing_any</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<real>60000</real>
+		<key>Key</key>
+		<string>interval</string>
+		<key>Title</key>
+		<string>Check every</string>
+		<key>Titles</key>
+		<array>
+			<string>30 seconds</string>
+			<string>minute</string>
+			<string>5 minutes</string>
+			<string>10 minutes</string>
+			<string>15 minutes</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<real>30000</real>
+			<real>60000</real>
+			<real>300000</real>
+			<real>600000</real>
+			<real>900000</real>
+		</array>
+	</dict>
+</array>
+</plist>
