@@ -1,0 +1,4 @@
+var Sounds =
+{
+	newMail1 : ''
+};

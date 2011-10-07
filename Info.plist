@@ -4,6 +4,8 @@
 <dict>
 	<key>Author</key>
 	<string>Frederic Grundt Østby</string>
+	<key>Builder Version</key>
+	<string>7534.48.3</string>
 	<key>CFBundleDisplayName</key>
 	<string>GmailChecker</string>
 	<key>CFBundleIdentifier</key>
@@ -11,28 +13,45 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.4</string>
+	<string>1.1.0</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Database Quota</key>
+		<real>1048576</real>
 		<key>Global Page</key>
-		<string>gmail.html</string>
+		<string>html/global.html</string>
+		<key>Popovers</key>
+		<array>
+			<dict>
+				<key>Filename</key>
+				<string>html/popover.html</string>
+				<key>Height</key>
+				<real>nan</real>
+				<key>Identifier</key>
+				<string>inbox</string>
+				<key>Width</key>
+				<real>300</real>
+			</dict>
+		</array>
 		<key>Toolbar Items</key>
 		<array>
 			<dict>
 				<key>Command</key>
-				<string>gmail</string>
+				<string></string>
 				<key>Identifier</key>
 				<string>gmail</string>
 				<key>Image</key>
-				<string>button.png</string>
+				<string>assets/images/button.png</string>
 				<key>Label</key>
 				<string>Gmail Checker</string>
 				<key>Palette Label</key>
 				<string>Gmail Checker</string>
+				<key>Popover</key>
+				<string>inbox</string>
 				<key>Tool Tip</key>
-				<string>Gmail Inbox</string>
+				<string>Gmail Checker</string>
 			</dict>
 		</array>
 	</dict>
