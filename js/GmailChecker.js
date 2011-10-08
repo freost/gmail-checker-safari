@@ -44,7 +44,7 @@ var GmailChecker =
 	{
 		var domains = ['amazon.com', 'amazon.co.uk', 'apple.com', 'itunes.com', 'dropbox.com', 'facebookmail.com', 
 		               'flickr.com', 'linkedin.com', 'postmaster.twitter.com', 'reply.github.com', 'youtube.com',
-		               'play.com', 'ebay.com', 'paypal.com'];
+		               'play.com', 'ebay.com', 'paypal.com', 'google.com'];
 
 		e = email.split('@');
 
