@@ -52,5 +52,15 @@
 			<real>900000</real>
 		</array>
 	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>gravatar</string>
+		<key>Title</key>
+		<string>Enable globally recognized avatars?</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
 </array>
 </plist>

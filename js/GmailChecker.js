@@ -229,7 +229,12 @@ var GmailChecker =
 		for(i in GmailChecker.inbox)
 		{
 			html += '<li>';
-			html += '<img class="gravatar" src="https://secure.gravatar.com/avatar/' + GmailChecker.inbox[i].hash + '?s=48&amp;r=pg&amp;d=mm" title="' + GmailChecker.inbox[i].email + '" alt="" />';
+			
+			if(safari.extension.settings.getItem("gravatar"))
+			{
+				html += '<img class="gravatar" src="https://secure.gravatar.com/avatar/' + GmailChecker.inbox[i].hash + '?s=48&amp;r=pg&amp;d=mm" title="' + GmailChecker.inbox[i].email + '" alt="" />';
+			}
+			
 			html += '<span><a href="#">' + GmailChecker.inbox[i].subject + '</a></span>';
 			html += '<span class="sender">' + GmailChecker.inbox[i].name + '</span>';
 			html += '<hr style="clear:both" />';
