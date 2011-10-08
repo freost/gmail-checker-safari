@@ -52,8 +52,10 @@ var GmailChecker =
 	* Sends user to GMail.
 	*/
 
-	goToGmail : function(compose)
+	goToGmail : function(url, prepend)
 	{
+		var url = prepend ? (GmailChecker.baseURL + url) : url;
+
 		var open_in = safari.extension.settings.getItem("open_in");
 			
 		if(open_in == "existing_active" || open_in == "existing_any")
@@ -75,12 +77,9 @@ var GmailChecker =
 						
 						windows[wi].tabs[ti].activate();
 
-						if(windows[wi].tabs[ti].url != GmailChecker.baseURL + "mail/u/0/#compose") // Don't change url if we're composing an email
+						if(windows[wi].tabs[ti].url != GmailChecker.baseURL + "mail/u/0/#compose" && windows[wi].tabs[ti].url != url)
 						{
-							if(compose || (!compose && windows[wi].tabs[ti].url != GmailChecker.baseURL + "mail/u/0/#inbox"))
-							{
-								windows[wi].tabs[ti].url = GmailChecker.baseURL + (compose ? "mail/u/0/#compose" : "mail/u/0/#inbox");	
-							}
+							windows[wi].tabs[ti].url = url;
 						}
 
 						safari.extension.popovers[0].hide();
@@ -96,7 +95,7 @@ var GmailChecker =
 			safari.application.activeBrowserWindow.openTab("foreground", safari.application.activeBrowserWindow.tabs.length + 1);
 		}
 		
-		safari.application.activeBrowserWindow.activeTab.url = GmailChecker.baseURL + (compose ? "mail/u/0/#compose" : "mail/u/0/#inbox");
+		safari.application.activeBrowserWindow.activeTab.url = url;
 
 		safari.extension.popovers[0].hide();
 	},
@@ -235,7 +234,7 @@ var GmailChecker =
 				html += '<img class="gravatar" src="https://secure.gravatar.com/avatar/' + GmailChecker.inbox[i].hash + '?s=48&amp;r=pg&amp;d=mm" title="' + GmailChecker.inbox[i].email + '" alt="" />';
 			}
 			
-			html += '<span><a href="#">' + GmailChecker.inbox[i].subject + '</a></span>';
+			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.inbox[i].subject + '</a></span>';
 			html += '<span class="sender">' + GmailChecker.inbox[i].name + '</span>';
 			html += '<hr style="clear:both" />';
 			html += '</li>';
