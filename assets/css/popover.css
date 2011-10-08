@@ -78,6 +78,7 @@ a.active
 {
 	float: left;
 	border: 1px solid #aaa;
+	border-radius:3px;
 	margin-right: 8px;
 	margin-bottom: 7px;
 	width: 48px;
