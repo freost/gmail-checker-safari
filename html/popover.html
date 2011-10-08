@@ -5,7 +5,14 @@
 
 <title></title>
 
+<meta charset="utf-8">
+
 <link href='../assets/css/popover.css' rel='stylesheet'>
+
+<script>
+var g = safari.extension.globalPage.contentWindow;
+var updateInbox = function(){g.GmailChecker.updateInbox(document);}; // Hack to allow updating of content from global page
+</script>
 
 </head>
 
@@ -13,10 +20,12 @@
 
 <div id="toolbar">
 
-<a class="blue" href="#" onclick="safari.extension.globalPage.contentWindow.GmailChecker.goToGmail(false);">Inbox</a> 
-<a class="red" href="#" onclick="safari.extension.globalPage.contentWindow.GmailChecker.goToGmail(true);">Compose</a>
+<a class="blue" href="#" onclick="g.GmailChecker.goToGmail(false);">Inbox</a> 
+<a class="red" href="#" onclick="g.GmailChecker.goToGmail(true);">Compose</a>
 
 </div>
+
+<div id="inbox"></div>
 
 </body>
 

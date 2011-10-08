@@ -3,6 +3,7 @@ body
 	padding: 4px;
 	margin: 0px;
 	overflow: hidden;
+	color: #444;
 	font-family: Arial, Helvetica, "Nimbus Sans", FreeSans, Malayalam, sans-serif;
 	text-shadow: 0px 1px 0px #fff;
 }
@@ -53,4 +54,54 @@ a.active
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fa665a), color-stop(1, #d34639) );
 	background-color:#fa665a;
 	border:1px solid #d83526;
+}
+
+#inbox
+{
+	padding: 4px;
+	padding-top: 8px;
+	padding-bottom: 0px;
+}
+
+#inbox ul
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+#inbox li
+{
+	list-style: none;
+}
+
+#inbox img.gravatar
+{
+	float: left;
+	border: 1px solid #aaa;
+	margin-right: 8px;
+	width: 48px;
+	height: 48px;
+}
+
+#inbox span
+{
+	display: block;
+	padding-top: 6px;
+}
+
+#inbox span.sender
+{
+	font-size: 0.8em;
+}
+
+#inbox hr
+{
+	padding-top: 4px;
+	border: 0px;
+	border-bottom: 1px solid #ccc;
+}
+
+#inbox li:last-child hr
+{
+	display: none;
 }

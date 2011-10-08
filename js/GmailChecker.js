@@ -11,11 +11,17 @@ var GmailChecker =
 	*/
 
 	baseURL: 'https://mail.google.com/',
+
+	/**
+	* Last 5 messages.
+	*/
+
+	inbox : new Array(),
 	
 	/**
 	* Event listener that handles changes in settings.
 	*
-	* @param event
+	* @param  event
 	*/
 	
 	changeHandler : function(event)
@@ -124,7 +130,29 @@ var GmailChecker =
 								var unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
 								
 								var emails = xhr2.responseXML.documentElement.getElementsByTagName("entry");
-								
+
+								GmailChecker.inbox = new Array(); // Reset inbox
+
+								for(var i = 0; i < Math.min(emails.length, 5); i++)
+								{
+									var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? 'no subject' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
+
+									if(subject.length > 30)
+									{
+										subject = subject.substr(0, 30) + "...";
+									}
+
+									var url =  emails[i].getElementsByTagName('link')[0].attributes[1].value;
+
+									var name = emails[i].getElementsByTagName('name')[0].firstChild.nodeValue;
+
+									var email = emails[i].getElementsByTagName('email')[0].firstChild.nodeValue.toLowerCase();
+
+									var hash = MD5(email);
+
+									GmailChecker.inbox.push({subject:subject, url:url, name:name, email:email, hash:hash});
+								}
+
 								// Update button in all windows
 
 								for(var i in safari.extension.toolbarItems)
@@ -167,6 +195,51 @@ var GmailChecker =
 		
 		xhr1.send(null);
 	},
+
+	/**
+	* Updates the content of the popover.
+	*
+	* @param  event
+	*/
+
+	updatePopover : function(event)
+	{
+		if(GmailChecker.inbox.length == 0)
+		{
+			safari.extension.popovers[0].height = 40;	
+		}
+		else
+		{
+			safari.extension.popovers[0].height = 40 + (65 * GmailChecker.inbox.length);
+		}
+
+		safari.extension.popovers[0].contentWindow.updateInbox();
+	},
+
+	/**
+	* Updates the email list of the popover.
+	*
+	* @param  document
+	*/
+
+	updateInbox : function(d)
+	{
+		var html = '<ul>';
+
+		for(i in GmailChecker.inbox)
+		{
+			html += '<li>';
+			html += '<img class="gravatar" src="https://secure.gravatar.com/avatar/' + GmailChecker.inbox[i].hash + '?s=48&amp;r=pg&amp;d=mm" title="' + GmailChecker.inbox[i].email + '" alt="" />';
+			html += '<span><a href="#">' + GmailChecker.inbox[i].subject + '</a></span>';
+			html += '<span class="sender">' + GmailChecker.inbox[i].name + '</span>';
+			html += '<hr style="clear:both" />';
+			html += '</li>';
+		}
+
+		html += '</ul>';
+
+		d.getElementById('inbox').innerHTML = html;
+	},
 	
 	/**
 	* Initiates the GmailChecker.
@@ -176,8 +249,9 @@ var GmailChecker =
 	{
 		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
 		
+		safari.application.addEventListener("popover", GmailChecker.updatePopover, true);
 		safari.extension.settings.addEventListener("change", GmailChecker.changeHandler, false);
-		
+
 		GmailChecker.checkInbox();
 	}
 };
