@@ -35,6 +35,30 @@ var GmailChecker =
 	},
 
 	/**
+	* Returns path or url to avatar.
+	*
+	* @param  string  Email address
+	*/
+
+	getAvatar : function(email)
+	{
+		var domains = ['amazon.com', 'amazon.co.uk', 'apple.com', 'itunes.com', 'dropbox.com', 'facebookmail.com', 
+		               'flickr.com', 'linkedin.com', 'postmaster.twitter.com', 'reply.github.com', 'youtube.com',
+		               'play.com', 'ebay.com', 'paypal.com'];
+
+		e = email.split('@');
+
+		if(domains.indexOf(e[1]) != -1)
+		{
+			return '../assets/images/avatars/' + e[1] + '.png';	
+		}
+		else
+		{
+			return 'https://secure.gravatar.com/avatar/' + MD5(email) + '?s=48&amp;r=pg&amp;d=mm';	
+		}
+	},
+
+	/**
 	* Plays sound when user receives new email.
 	*/
 
@@ -147,11 +171,9 @@ var GmailChecker =
 
 									var email = emails[i].getElementsByTagName('email')[0].firstChild.nodeValue.toLowerCase();
 
-									var hash = MD5(email);
-
-									GmailChecker.inbox.push({subject:subject, url:url, name:name, email:email, hash:hash});
+									GmailChecker.inbox.push({subject:subject, url:url, name:name, email:email});
 								}
-
+								
 								// Update button in all windows
 
 								for(var i in safari.extension.toolbarItems)
@@ -209,14 +231,14 @@ var GmailChecker =
 		}
 		else
 		{
-			safari.extension.popovers[0].height = 40 + (65 * GmailChecker.inbox.length);
+			safari.extension.popovers[0].height = 40 + (60 * GmailChecker.inbox.length) + (7 * (GmailChecker.inbox.length - 1));
 		}
 
 		safari.extension.popovers[0].contentWindow.updateInbox();
 	},
 
 	/**
-	* Updates the email list of the popover.
+	* Updates the list of new messages in the popover.
 	*
 	* @param  document
 	*/
@@ -231,7 +253,7 @@ var GmailChecker =
 			
 			if(safari.extension.settings.getItem("gravatar"))
 			{
-				html += '<img class="gravatar" src="https://secure.gravatar.com/avatar/' + GmailChecker.inbox[i].hash + '?s=48&amp;r=pg&amp;d=mm" title="' + GmailChecker.inbox[i].email + '" alt="" />';
+				html += '<img class="gravatar" src="' + GmailChecker.getAvatar(GmailChecker.inbox[i].email) + '" title="' + GmailChecker.inbox[i].email + '" alt="" />';
 			}
 			
 			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.inbox[i].subject + '</a></span>';

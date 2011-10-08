@@ -1,4 +1,0 @@
-var Sounds =
-{
-	newMail1 : ''
-};

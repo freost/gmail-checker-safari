@@ -58,7 +58,7 @@ a.active
 
 #inbox
 {
-	padding: 4px;
+	padding: 5px;
 	padding-top: 8px;
 	padding-bottom: 0px;
 }
@@ -79,6 +79,7 @@ a.active
 	float: left;
 	border: 1px solid #aaa;
 	margin-right: 8px;
+	margin-bottom: 7px;
 	width: 48px;
 	height: 48px;
 }
@@ -96,9 +97,10 @@ a.active
 
 #inbox hr
 {
-	padding-top: 4px;
+	height:1px;
 	border: 0px;
-	border-bottom: 1px solid #ccc;
+	background:#ccc;
+	border-bottom: 1px solid #fff;
 }
 
 #inbox li:last-child hr
