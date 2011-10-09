@@ -37,7 +37,8 @@ var GmailChecker =
 	/**
 	* Returns path or url to avatar.
 	*
-	* @param  string  Email address
+	* @param   string  Email address
+	* @return  string  Path or URL to avatar
 	*/
 
 	getAvatar : function(email)
@@ -56,6 +57,19 @@ var GmailChecker =
 		{
 			return 'https://secure.gravatar.com/avatar/' + MD5(email) + '?s=48&amp;r=pg&amp;d=mm';	
 		}
+	},
+
+	/**
+	* Truncate string to maxLen - 3
+	*
+	* @param   string  String to truncate
+	* @param   int     Max length
+	* @return  string  Truncated string
+	*/
+
+	truncate : function(str, maxLen)
+	{
+		return (str.length > maxLen) ? str.substr(0, (maxLen - 3)) + '...' : str;	
 	},
 
 	/**
@@ -160,18 +174,15 @@ var GmailChecker =
 								{
 									var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? 'no subject' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
 
-									if(subject.length > 30)
-									{
-										subject = subject.substr(0, 30) + "...";
-									}
-
-									var url =  emails[i].getElementsByTagName('link')[0].attributes[1].value;
-
 									var name = emails[i].getElementsByTagName('name')[0].firstChild.nodeValue;
 
 									var email = emails[i].getElementsByTagName('email')[0].firstChild.nodeValue.toLowerCase();
 
-									GmailChecker.inbox.push({subject:subject, url:url, name:name, email:email});
+									var url =  emails[i].getElementsByTagName('link')[0].attributes[1].value;
+
+									var date = emails[i].getElementsByTagName('issued')[0].firstChild.nodeValue;
+
+									GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
 								}
 								
 								// Update button in all windows
@@ -249,6 +260,8 @@ var GmailChecker =
 
 		for(i in GmailChecker.inbox)
 		{
+			var date = new Date(GmailChecker.inbox[i].date);
+
 			html += '<li>';
 			
 			if(safari.extension.settings.getItem("gravatar"))
@@ -256,8 +269,9 @@ var GmailChecker =
 				html += '<img class="gravatar" src="' + GmailChecker.getAvatar(GmailChecker.inbox[i].email) + '" title="' + GmailChecker.inbox[i].email + '" alt="" />';
 			}
 			
-			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.inbox[i].subject + '</a></span>';
-			html += '<span class="sender">' + GmailChecker.inbox[i].name + '</span>';
+			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 30) + '</a></span>';
+			html += '<span class="date">' + date.toLocaleDateString() + '</span>';
+			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';
 			html += '</li>';
 		}
