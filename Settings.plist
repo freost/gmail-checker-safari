@@ -54,6 +54,28 @@
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
+		<string>yyyy/mm/dd</string>
+		<key>Key</key>
+		<string>date_format</string>
+		<key>Title</key>
+		<string>Date format</string>
+		<key>Titles</key>
+		<array>
+			<string>yyyy/mm/dd</string>
+			<string>mm/dd/yyyy</string>
+			<string>dd/mm/yyyy</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>yyyy/mm/dd</string>
+			<string>mm/dd/yyyy</string>
+			<string>dd/mm/yyyy</string>
+		</array>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
 		<string>gravatar</string>

@@ -60,7 +60,7 @@ var GmailChecker =
 	},
 
 	/**
-	* Truncate string to maxLen - 3
+	* Truncate string to maxLen - 3.
 	*
 	* @param   string  String to truncate
 	* @param   int     Max length
@@ -70,6 +70,40 @@ var GmailChecker =
 	truncate : function(str, maxLen)
 	{
 		return (str.length > maxLen) ? str.substr(0, (maxLen - 3)) + '...' : str;	
+	},
+
+	/**
+	* Formats date into one of 3 formats.
+	*
+	* @param   Date    Date object
+	* @param   string  Date format
+	* @return  string  Formatted date
+	*/
+
+	dateFormat : function(d, format)
+	{
+		var y = d.getFullYear();
+		var m = d.getMonth() + 1;
+		var d = d.getDate();
+
+		m = (m < 10) ? '0' + m : m;
+		d = (d < 10) ? '0' + d : d;
+
+		var date;
+
+		switch(format)
+		{
+			case 'yyyy/mm/dd':
+				date = y + '/' + m + '/' + d;
+			break;
+			case 'mm/dd/yyyy':
+				date =  m + '/' + d + '/' + y;
+			break;
+			default:
+				date =  d + '/' + m + '/' + y;
+		}
+
+		return date;
 	},
 
 	/**
@@ -270,7 +304,7 @@ var GmailChecker =
 			}
 			
 			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 30) + '</a></span>';
-			html += '<span class="date">' + date.toLocaleDateString() + '</span>';
+			html += '<span class="date">' + GmailChecker.dateFormat(date, safari.extension.settings.getItem("date_format")) + '</span>';
 			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';
 			html += '</li>';
