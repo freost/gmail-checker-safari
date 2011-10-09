@@ -180,6 +180,8 @@ var GmailChecker =
 	
 	checkInbox : function()
 	{
+		GmailChecker.inbox = new Array(); // Reset inbox
+		
 		var xhr1 = new XMLHttpRequest();
 		
 		xhr1.onreadystatechange = function()
@@ -201,8 +203,6 @@ var GmailChecker =
 								var unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
 								
 								var emails = xhr2.responseXML.documentElement.getElementsByTagName("entry");
-
-								GmailChecker.inbox = new Array(); // Reset inbox
 
 								for(var i = 0; i < Math.min(emails.length, 5); i++)
 								{
