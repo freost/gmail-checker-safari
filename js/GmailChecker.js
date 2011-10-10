@@ -224,9 +224,11 @@ var GmailChecker =
 					{
 						if(xhr2.readyState == 4)
 						{
+							var unread = 0;
+
 							if(xhr2.status == 200)
 							{	
-								var unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
+								unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
 								
 								var emails = xhr2.responseXML.documentElement.getElementsByTagName("entry");
 
@@ -244,24 +246,14 @@ var GmailChecker =
 
 									GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
 								}
-								
-								// Update button in all windows
-
-								for(var i in safari.extension.toolbarItems)
-								{
-									safari.extension.toolbarItems[i].badge = unread;
-									safari.extension.toolbarItems[i].image = safari.extension.baseURI + "assets/images/button.png";
-								}
 							}
-							else
+							
+							// Update button in all windows
+
+							for(var i in safari.extension.toolbarItems)
 							{
-								// Update button in all windows
-								
-								for(var i in safari.extension.toolbarItems)
-								{
-									safari.extension.toolbarItems[i].badge = 0;
-									safari.extension.toolbarItems[i].image = safari.extension.baseURI + "assets/images/button.png";
-								}
+								safari.extension.toolbarItems[i].badge = unread;
+								safari.extension.toolbarItems[i].image = safari.extension.baseURI + "assets/images/button.png";
 							}
 						}
 					}
@@ -275,6 +267,8 @@ var GmailChecker =
 					// Logged out
 
 					GmailChecker.signedIn = false;
+
+					// Update button in all windows
 					
 					for(var i in safari.extension.toolbarItems)
 					{
