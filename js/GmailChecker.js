@@ -86,7 +86,7 @@ var GmailChecker =
 	* @return  string  Formatted date
 	*/
 
-	dateFormat : function(d, format)
+	dateFormat : function(d)
 	{
 		var y = d.getFullYear();
 		var m = d.getMonth() + 1;
@@ -97,7 +97,7 @@ var GmailChecker =
 
 		var date;
 
-		switch(format)
+		switch(safari.extension.settings.getItem("date_format"))
 		{
 			case 'yyyy/mm/dd':
 				date = y + '/' + m + '/' + d;
@@ -110,6 +110,24 @@ var GmailChecker =
 		}
 
 		return date;
+	},
+
+	/**
+	* Returns formatted time.
+	*
+	* @param  Date    Date object
+	* return  String  Formatted time
+	*/
+
+	formatTime : function(d)
+	{
+		var h = d.getHours();
+		var m = d.getMinutes();
+
+		h = (h < 10) ? '0' + h : h;
+		m = (m < 10) ? '0' + m : m;
+
+		return h + ':' + m;
 	},
 
 	/**
@@ -314,7 +332,7 @@ var GmailChecker =
 			}
 			
 			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 25) + '</a></span>';
-			html += '<span class="date">' + GmailChecker.dateFormat(date, safari.extension.settings.getItem("date_format")) + '</span>';
+			html += '<span class="date">' + GmailChecker.dateFormat(date) + '<span class="time"> @ ' + GmailChecker.formatTime(date) + '</span></span>';
 			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';
 			html += '</li>';

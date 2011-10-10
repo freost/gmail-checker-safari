@@ -106,13 +106,25 @@ a.green
 
 #inbox span.date
 {
-	float:right;
+	position:absolute;
+	z-index:99;
+	right:9px;
 	background: #ddd;
 	border: 1px solid #ccc;
 	border-radius:3px;
 	padding: 1px;
 	margin-top: 6px;
 	font-size: 0.6em;
+}
+
+#inbox span.date span.time
+{
+	display :none;
+}
+
+#inbox span.date:hover span.time
+{
+	display :inline;
 }
 
 #inbox hr
