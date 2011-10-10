@@ -298,7 +298,7 @@ var GmailChecker =
 		}
 		else
 		{
-			safari.extension.popovers[0].height = 40 + (67 * GmailChecker.inbox.length) - 7));
+			safari.extension.popovers[0].height = 40 + ((67 * GmailChecker.inbox.length) - 7);
 		}
 
 		safari.extension.popovers[0].contentWindow.updateInbox(GmailChecker.signedIn);
