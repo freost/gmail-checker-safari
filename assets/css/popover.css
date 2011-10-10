@@ -19,17 +19,17 @@ a:hover
 	color: #2677df;
 }
 
-a.active
+a:active
 {
 	color: #444;
 }
 
-#toolbar
+#signed-in, #signed-out
 {
 	text-align: center;
 }
 
-#toolbar a
+a.button
 {
 	border-radius:6px;
 	display:inline-block;
@@ -39,21 +39,29 @@ a.active
 	min-width: 90px;
 }
 
-#toolbar a.blue
+a.blue
 {
 	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
 	background-color:#3d94f6;
 	border:1px solid #337fed;
 }
 
-#toolbar a.red
+a.red
 {
 	-webkit-box-shadow:inset 0px 1px 0px 0px #fab3ad;
-	box-shadow:inset 0px 1px 0px 0px #fab3ad;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fa665a), color-stop(1, #d34639) );
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fa665a), color-stop(1, #d34639));
 	background-color:#fa665a;
 	border:1px solid #d83526;
+}
+
+a.green
+{
+	-webkit-box-shadow:inset 0px 1px 0px 0px #c1ed9c;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #9dce2c), color-stop(1, #8cb82b));
+	background-color:#9dce2c;
+	border:1px solid #83c41a;
+	min-width: 230px;
 }
 
 #inbox

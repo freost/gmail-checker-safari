@@ -13,6 +13,12 @@ var GmailChecker =
 	baseURL: 'https://mail.google.com/',
 
 	/**
+	* Is the user signed in?
+	*/
+
+	signedIn : false,
+
+	/**
 	* Last 5 messages.
 	*/
 
@@ -191,6 +197,8 @@ var GmailChecker =
 				if(xhr1.status == 404)
 				{
 					// Logged in
+
+					GmailChecker.signedIn = true;
 					
 					var xhr2 = new XMLHttpRequest();
 
@@ -247,6 +255,8 @@ var GmailChecker =
 				else
 				{
 					// Logged out
+
+					GmailChecker.signedIn = false;
 					
 					for(var i in safari.extension.toolbarItems)
 					{
@@ -279,7 +289,7 @@ var GmailChecker =
 			safari.extension.popovers[0].height = 40 + (60 * GmailChecker.inbox.length) + (7 * (GmailChecker.inbox.length - 1));
 		}
 
-		safari.extension.popovers[0].contentWindow.updateInbox();
+		safari.extension.popovers[0].contentWindow.updateInbox(GmailChecker.signedIn);
 	},
 
 	/**

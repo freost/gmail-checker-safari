@@ -11,18 +11,27 @@
 
 <script>
 var g = safari.extension.globalPage.contentWindow;
-var updateInbox = function(){g.GmailChecker.updateInbox(document);}; // Hack to allow updating of content from global page
+
+var updateInbox = function(signedIn)
+{
+	g.GmailChecker.updateInbox(document);
+
+	document.getElementById('signed-out').style.display = (signedIn ? 'none' : '');
+	document.getElementById('signed-in').style.display = (signedIn ? '' : 'none');
+};
 </script>
 
 </head>
 
 <body>
 
-<div id="toolbar">
+<div id="signed-out" style="display:none">
+<a class="button green" href="#" onclick="g.GmailChecker.goToGmail('', true);">Sign In</a> 
+</div>
 
-<a class="blue" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#inbox', true);">Inbox</a> 
-<a class="red" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#compose', true);">Compose</a>
-
+<div id="signed-in">
+<a class="button blue" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#inbox', true);">Inbox</a> 
+<a class="button red" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#compose', true);">Compose</a>
 </div>
 
 <div id="inbox"></div>
