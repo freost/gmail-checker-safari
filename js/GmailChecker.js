@@ -49,20 +49,27 @@ var GmailChecker =
 
 	getAvatar : function(email)
 	{
-		var domains = ['amazon.com', 'amazon.co.uk', 'apple.com', 'itunes.com', 'dropbox.com', 'facebookmail.com', 
-		               'flickr.com', 'linkedin.com', 'postmaster.twitter.com', 'reply.github.com', 'youtube.com',
-		               'email.play.com', 'ebay.com', 'paypal.com', 'google.com', 'eu.playstationmail.com', 'mubi.com'];
-
-		e = email.split('@');
-
-		if(domains.indexOf(e[1]) != -1)
+		var patterns = {'icloud':'noreply@me\\.com', 'amazon':'(.*)@amazon\\.(com|de|co\\.uk)', 'play':'(.*)@email\\.play\\.com',
+		                'apple':'(.*)@(itunes|apple)\\.com', 'dropbox':'(.*)@dropbox\\.com', 'ebay':'(.*)@ebay\\.com',
+		                'playstation':'(.*)@((.*)\\.)?playstationmail\\.com', 'facebook':'(.*)@facebookmail\\.com',
+		                'flickr':'(.*)@flickr\\.com', 'google':'(.*)@google\\.com', 'linkedin':'(.*)@linkedin\\.com',
+		                'mubi':'(.*)@mubi\\.com', 'paypal':'(.*)@paypal\\.com', 'twitter':'(.*)@postmaster\\.twitter\\.com',
+		                'github':'(.*)@reply\\.github\\.com', 'youtube':'(.*)@youtube\\.com'};
+			
+		for(key in patterns)
 		{
-			return '../assets/images/avatars/' + e[1] + '.png';	
+			if(!patterns.hasOwnProperty(key))
+			{
+				continue;
+			}
+
+			if(email.match(patterns[key]) != null)
+			{
+				return '../assets/images/avatars/' + key + '.png';
+			}
 		}
-		else
-		{
-			return 'https://secure.gravatar.com/avatar/' + MD5(email) + '?s=48&amp;r=pg&amp;d=mm';	
-		}
+
+		return 'https://secure.gravatar.com/avatar/' + MD5(email) + '?s=48&amp;r=pg&amp;d=mm';
 	},
 
 	/**
