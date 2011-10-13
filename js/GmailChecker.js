@@ -49,7 +49,7 @@ var GmailChecker =
 
 	getAvatar : function(email)
 	{
-		var patterns = {'icloud':'noreply@me\\.com', 'amazon':'(.*)@amazon\\.(com|fr|ca|es|cn|it|de|co\\.uk|co\\.jp)', 'play':'(.*)@email\\.play\\.com',
+		var patterns = {'icloud':'noreply@me\\.com', 'amazon':'(.*)@amazon\\.(com|fr|ca|es|cn|it|de|co\\.uk|co\\.jp)', 'play':'(.*)@play\\.com',
 		                'apple':'(.*)@(itunes|apple)\\.com', 'dropbox':'(.*)@dropbox\\.com', 'ebay':'(.*)@ebay\\.com',
 		                'playstation':'(.*)@((.*)\\.)?playstationmail\\.com', 'facebook':'(.*)@facebookmail\\.com',
 		                'flickr':'(.*)@flickr\\.com', 'google':'(.*)@google\\.com', 'linkedin':'(.*)@linkedin\\.com',
