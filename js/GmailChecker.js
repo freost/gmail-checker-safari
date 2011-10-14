@@ -308,7 +308,7 @@ var GmailChecker =
 			safari.extension.popovers[0].height = 40 + ((67 * GmailChecker.inbox.length) - 7);
 		}
 
-		safari.extension.popovers[0].contentWindow.updateInbox(GmailChecker.signedIn);
+		safari.extension.popovers[0].contentWindow.updateInbox();
 	},
 
 	/**
@@ -319,6 +319,9 @@ var GmailChecker =
 
 	updateInbox : function(d)
 	{
+		d.getElementById('signed-out').style.display = (GmailChecker.signedIn ? 'none' : '');
+		d.getElementById('signed-in').style.display = (GmailChecker.signedIn ? '' : 'none');
+
 		var html = '<ul>';
 
 		for(i in GmailChecker.inbox)

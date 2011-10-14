@@ -11,14 +11,7 @@
 
 <script>
 var g = safari.extension.globalPage.contentWindow;
-
-var updateInbox = function(signedIn)
-{
-	g.GmailChecker.updateInbox(document);
-
-	document.getElementById('signed-out').style.display = (signedIn ? 'none' : '');
-	document.getElementById('signed-in').style.display = (signedIn ? '' : 'none');
-};
+var updateInbox = function(signedIn){g.GmailChecker.updateInbox(document);};
 </script>
 
 </head>
