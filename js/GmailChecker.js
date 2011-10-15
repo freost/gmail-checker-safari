@@ -54,7 +54,7 @@ var GmailChecker =
 		                'playstation':'(.*)@((.*)\\.)?playstationmail\\.com', 'facebook':'(.*)@facebookmail\\.com',
 		                'flickr':'(.*)@flickr\\.com', 'google':'(.*)@google\\.com', 'linkedin':'(.*)@linkedin\\.com',
 		                'mubi':'(.*)@mubi\\.com', 'paypal':'(.*)@paypal\\.com', 'twitter':'(.*)@postmaster\\.twitter\\.com',
-		                'github':'(.*)@reply\\.github\\.com', 'youtube':'(.*)@youtube\\.com'};
+		                'github':'(.*)@reply\\.github\\.com', 'youtube':'(.*)@youtube\\.com', 'lastfm':'(.*)@mailer\\.last\\.fm'};
 			
 		for(key in patterns)
 		{
