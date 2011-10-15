@@ -145,11 +145,10 @@ var GmailChecker =
 	notify : function()
 	{
 
-		/*if(safari.extension.settings.getItem("play_sound"))
+		if(safari.extension.settings.getItem("enable_audio"))
 		{
-			a = new Audio(Sounds.newMail1);
-			a.play();
-		}*/
+			safari.extension.bars[0].contentWindow.play(AudioData[safari.extension.settings.getItem('audio_file')]);
+		}
 	},
 
 	/**
@@ -254,6 +253,17 @@ var GmailChecker =
 
 									GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
 								}
+
+								// Notify?
+
+								var lastMessageDate = new Date(localStorage.getItem('date'));
+								var newMessageDate  = new Date(GmailChecker.inbox[0].date);
+
+								if(lastMessageDate == null || newMessageDate > lastMessageDate)
+								{
+									GmailChecker.notify();
+									localStorage.setItem('date', GmailChecker.inbox[0].date);
+								}
 							}
 							
 							// Update button in all windows
@@ -354,6 +364,8 @@ var GmailChecker =
 	
 	init : function()
 	{
+		safari.extension.bars[0].hide(); // Hack to get audio and hover working
+
 		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
 		
 		safari.application.addEventListener("popover", GmailChecker.updatePopover, true);

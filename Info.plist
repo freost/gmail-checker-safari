@@ -13,11 +13,22 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5.2</string>
+	<string>1.6.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.5.2</string>
+	<string>1.6.0</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Bars</key>
+		<array>
+			<dict>
+				<key>Filename</key>
+				<string>html/bar.html</string>
+				<key>Identifier</key>
+				<string>hack</string>
+				<key>Label</key>
+				<string>Gmail Checker</string>
+			</dict>
+		</array>
 		<key>Database Quota</key>
 		<real>1048576</real>
 		<key>Global Page</key>

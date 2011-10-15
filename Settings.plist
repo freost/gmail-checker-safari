@@ -4,6 +4,16 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>gravatar</string>
+		<key>Title</key>
+		<string>Enable globally recognized avatars?</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
 		<string>existing_any</string>
 		<key>Key</key>
 		<string>open_in</string>
@@ -78,11 +88,37 @@
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
-		<string>gravatar</string>
+		<string>enable_audio</string>
 		<key>Title</key>
-		<string>Enable globally recognized avatars?</string>
+		<string>Enable audio notifications?</string>
 		<key>Type</key>
 		<string>CheckBox</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>five</string>
+		<key>Key</key>
+		<string>audio_file</string>
+		<key>Title</key>
+		<string>Pick sound</string>
+		<key>Titles</key>
+		<array>
+			<string>sound one</string>
+			<string>sound two</string>
+			<string>sound three</string>
+			<string>sound four</string>
+			<string>sound five</string>
+		</array>
+		<key>Type</key>
+		<string>PopUpButton</string>
+		<key>Values</key>
+		<array>
+			<string>one</string>
+			<string>two</string>
+			<string>three</string>
+			<string>four</string>
+			<string>five</string>
+		</array>
 	</dict>
 </array>
 </plist>
