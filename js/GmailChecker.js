@@ -259,7 +259,7 @@ var GmailChecker =
 								var lastMessageDate = new Date(localStorage.getItem('date'));
 								var newMessageDate  = new Date(GmailChecker.inbox[0].date);
 
-								if(lastMessageDate == null || newMessageDate > lastMessageDate)
+								if(newMessageDate > lastMessageDate)
 								{
 									GmailChecker.notify();
 									localStorage.setItem('date', GmailChecker.inbox[0].date);
