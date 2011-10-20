@@ -103,11 +103,11 @@
 		<string>Pick sound</string>
 		<key>Titles</key>
 		<array>
-			<string>sound one</string>
-			<string>sound two</string>
-			<string>sound three</string>
-			<string>sound four</string>
-			<string>sound five</string>
+			<string>glass</string>
+			<string>ping</string>
+			<string>submarine</string>
+			<string>new message 1</string>
+			<string>new message 2</string>
 		</array>
 		<key>Type</key>
 		<string>PopUpButton</string>

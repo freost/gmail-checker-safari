@@ -144,7 +144,6 @@ var GmailChecker =
 
 	notify : function()
 	{
-
 		if(safari.extension.settings.getItem("enable_audio"))
 		{
 			safari.extension.bars[0].contentWindow.play(AudioData[safari.extension.settings.getItem('audio_file')]);
