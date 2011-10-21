@@ -255,13 +255,20 @@ var GmailChecker =
 
 								// Notify?
 
-								var lastMessageDate = new Date(localStorage.getItem('date'));
-								var newMessageDate  = new Date(GmailChecker.inbox[0].date);
-
-								if(newMessageDate > lastMessageDate)
+								try
 								{
-									GmailChecker.notify();
-									localStorage.setItem('date', GmailChecker.inbox[0].date);
+									var lastMessageDate = new Date(localStorage.getItem('date'));
+									var newMessageDate  = new Date(GmailChecker.inbox[0].date);
+
+									if(newMessageDate > lastMessageDate)
+									{
+										GmailChecker.notify();
+										localStorage.setItem('date', GmailChecker.inbox[0].date);
+									}	
+								}
+								catch(err)
+								{
+									// Nothing to see ... move along
 								}
 							}
 							

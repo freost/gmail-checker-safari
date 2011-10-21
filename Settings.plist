@@ -4,16 +4,6 @@
 <array>
 	<dict>
 		<key>DefaultValue</key>
-		<true/>
-		<key>Key</key>
-		<string>gravatar</string>
-		<key>Title</key>
-		<string>Enable globally recognized avatars?</string>
-		<key>Type</key>
-		<string>CheckBox</string>
-	</dict>
-	<dict>
-		<key>DefaultValue</key>
 		<string>existing_any</string>
 		<key>Key</key>
 		<string>open_in</string>
@@ -63,6 +53,30 @@
 		</array>
 	</dict>
 	<dict>
+		<key>Type</key>
+		<string>Separator</string>
+	</dict>
+	<!--<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>enable_popover</string>
+		<key>Title</key>
+		<string>Enable inbox preview?</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>-->
+	<dict>
+		<key>DefaultValue</key>
+		<true/>
+		<key>Key</key>
+		<string>gravatar</string>
+		<key>Title</key>
+		<string>Enable globally recognized avatars?</string>
+		<key>Type</key>
+		<string>CheckBox</string>
+	</dict>
+	<dict>
 		<key>DefaultValue</key>
 		<string>yyyy/mm/dd</string>
 		<key>Key</key>
@@ -83,6 +97,10 @@
 			<string>mm/dd/yyyy</string>
 			<string>dd/mm/yyyy</string>
 		</array>
+	</dict>
+	<dict>
+		<key>Type</key>
+		<string>Separator</string>
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
