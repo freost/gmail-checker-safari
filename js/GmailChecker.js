@@ -296,17 +296,24 @@ var GmailChecker =
 					{
 						if(xhr2.readyState == 4)
 						{
+							var toolTip = 'Gmail Inbox';
+
 							var unread = 0;
 
 							if(xhr2.status == 200)
-							{	
+							{
+								if(!safari.extension.settings.getItem('enable_popover'))
+								{
+									toolTip = new Array();
+								}
+
 								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
 								
 								var emails = xhr2.responseXML.documentElement.getElementsByTagName('entry');
 
 								for(var i = 0; i < Math.min(emails.length, 5); i++)
 								{
-									var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? 'no subject' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
+									var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? '(no subject)' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
 
 									var name = emails[i].getElementsByTagName('name')[0].firstChild.nodeValue;
 
@@ -317,6 +324,16 @@ var GmailChecker =
 									var date = emails[i].getElementsByTagName('issued')[0].firstChild.nodeValue;
 
 									GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
+
+									if(!safari.extension.settings.getItem('enable_popover'))
+									{
+										toolTip.push('- ' + GmailChecker.truncate(subject, 50));
+									}
+								}
+
+								if(!safari.extension.settings.getItem('enable_popover'))
+								{
+									toolTip = toolTip.join('\n');
 								}
 
 								// Notify?
@@ -338,8 +355,9 @@ var GmailChecker =
 
 							for(var i in safari.extension.toolbarItems)
 							{
-								safari.extension.toolbarItems[i].badge = unread;
-								safari.extension.toolbarItems[i].image = safari.extension.baseURI + 'assets/images/button.png';
+								safari.extension.toolbarItems[i].badge   = unread;
+								safari.extension.toolbarItems[i].toolTip = toolTip;
+								safari.extension.toolbarItems[i].image   = safari.extension.baseURI + 'assets/images/button.png';
 							}
 						}
 					}
@@ -358,8 +376,9 @@ var GmailChecker =
 					
 					for(var i in safari.extension.toolbarItems)
 					{
-						safari.extension.toolbarItems[i].badge = 0;
-						safari.extension.toolbarItems[i].image = safari.extension.baseURI + 'assets/images/button_faded.png';
+						safari.extension.toolbarItems[i].badge   = 0;
+						safari.extension.toolbarItems[i].toolTip = 'Gmail Checker';
+						safari.extension.toolbarItems[i].image   = safari.extension.baseURI + 'assets/images/button_faded.png';
 					}
 				}
 			}
