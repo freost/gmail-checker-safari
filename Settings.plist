@@ -56,7 +56,7 @@
 		<key>Type</key>
 		<string>Separator</string>
 	</dict>
-	<!--<dict>
+	<dict>
 		<key>DefaultValue</key>
 		<true/>
 		<key>Key</key>
@@ -65,7 +65,7 @@
 		<string>Enable inbox preview?</string>
 		<key>Type</key>
 		<string>CheckBox</string>
-	</dict>-->
+	</dict>
 	<dict>
 		<key>DefaultValue</key>
 		<true/>

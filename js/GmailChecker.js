@@ -32,12 +32,66 @@ var GmailChecker =
 	
 	changeHandler : function(event)
 	{
-		if(event.key === "interval")
+		switch(event.key)
 		{
-			clearInterval(GmailChecker.intervalId);
+			case 'interval':
+			{
+				clearInterval(GmailChecker.intervalId);
 			
-			GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
+				GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem('interval'));	
+			}
+			break;
+			case 'enable_popover':
+			{
+				if(safari.extension.settings.getItem('enable_popover'))
+				{
+					GmailChecker.addPopover();
+				}
+				else
+				{
+					safari.extension.popovers[0].hide();
+
+					safari.application.removeEventListener('popover', GmailChecker.updatePopover, true);
+
+					safari.extension.toolbarItems[0].popover = null;
+
+					safari.extension.removePopover('popover');
+				}
+			}
+			break;
 		}
+	},
+
+	/**
+	* Event listener that handles button clicks.
+	*
+	* @param event
+	*/
+
+	commandHandler : function(event)
+	{
+		if(event.command === 'gmail')
+		{
+			if(safari.extension.settings.getItem('enable_popover'))
+			{
+				safari.extension.toolbarItems[0].showPopover();
+			}
+			else
+			{
+				GmailChecker.goToGmail('mail/u/0/#inbox', true);
+			}
+		}
+	},
+
+	/**
+	* Adds popover to the button.
+	*/
+
+	addPopover : function()
+	{
+		safari.extension.toolbarItems[0].popover = safari.extension.createPopover('popover', safari.extension.baseURI + "html/popover.html", 300, 40);
+
+		safari.application.addEventListener('popover', GmailChecker.updatePopover, true);
 	},
 
 	/**
@@ -94,7 +148,7 @@ var GmailChecker =
 	* @return  string  Formatted date
 	*/
 
-	dateFormat : function(d)
+	formatDate : function(d)
 	{
 		var y = d.getFullYear();
 		var m = d.getMonth() + 1;
@@ -105,7 +159,7 @@ var GmailChecker =
 
 		var date;
 
-		switch(safari.extension.settings.getItem("date_format"))
+		switch(safari.extension.settings.getItem('date_format'))
 		{
 			case 'yyyy/mm/dd':
 				date = y + '/' + m + '/' + d;
@@ -144,7 +198,7 @@ var GmailChecker =
 
 	notify : function()
 	{
-		if(safari.extension.settings.getItem("enable_audio"))
+		if(safari.extension.settings.getItem('enable_audio'))
 		{
 			safari.extension.bars[0].contentWindow.play(AudioData[safari.extension.settings.getItem('audio_file')]);
 		}
@@ -158,11 +212,11 @@ var GmailChecker =
 	{
 		var url = prepend ? (GmailChecker.baseURL + url) : url;
 
-		var open_in = safari.extension.settings.getItem("open_in");
+		var open_in = safari.extension.settings.getItem('open_in');
 			
-		if(open_in == "existing_active" || open_in == "existing_any")
+		if(open_in == 'existing_active' || open_in == 'existing_any')
 		{
-			var windows = (open_in == "existing_active") ? new Array(safari.application.activeBrowserWindow) : safari.application.browserWindows;
+			var windows = (open_in == 'existing_active') ? new Array(safari.application.activeBrowserWindow) : safari.application.browserWindows;
 			
 			for(var wi in windows)
 			{
@@ -179,12 +233,15 @@ var GmailChecker =
 						
 						windows[wi].tabs[ti].activate();
 
-						if(windows[wi].tabs[ti].url != GmailChecker.baseURL + "mail/u/0/#compose" && windows[wi].tabs[ti].url != url)
+						if(windows[wi].tabs[ti].url != GmailChecker.baseURL + 'mail/u/0/#compose' && windows[wi].tabs[ti].url != url)
 						{
 							windows[wi].tabs[ti].url = url;
 						}
 
-						safari.extension.popovers[0].hide();
+						if(safari.extension.settings.getItem('enable_popover'))
+						{
+							safari.extension.popovers[0].hide();
+						}
 
 						return; // We found what we were looking for
 					}
@@ -192,14 +249,17 @@ var GmailChecker =
 			}
 		}
 		
-		if(open_in == "new" || open_in == "existing_active" || open_in == "existing_any")
+		if(open_in == 'new' || open_in == 'existing_active' || open_in == 'existing_any')
 		{
-			safari.application.activeBrowserWindow.openTab("foreground", safari.application.activeBrowserWindow.tabs.length + 1);
+			safari.application.activeBrowserWindow.openTab('foreground', safari.application.activeBrowserWindow.tabs.length + 1);
 		}
 		
 		safari.application.activeBrowserWindow.activeTab.url = url;
 
-		safari.extension.popovers[0].hide();
+		if(safari.extension.settings.getItem('enable_popover'))
+		{
+			safari.extension.popovers[0].hide();
+		}
 	},
 	
 	/**
@@ -234,9 +294,9 @@ var GmailChecker =
 
 							if(xhr2.status == 200)
 							{	
-								unread = xhr2.responseXML.documentElement.getElementsByTagName("fullcount")[0].firstChild.nodeValue;
+								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
 								
-								var emails = xhr2.responseXML.documentElement.getElementsByTagName("entry");
+								var emails = xhr2.responseXML.documentElement.getElementsByTagName('entry');
 
 								for(var i = 0; i < Math.min(emails.length, 5); i++)
 								{
@@ -255,7 +315,7 @@ var GmailChecker =
 
 								// Notify?
 
-								try
+								if(unread > 0)
 								{
 									var lastMessageDate = new Date(localStorage.getItem('date'));
 									var newMessageDate  = new Date(GmailChecker.inbox[0].date);
@@ -266,10 +326,6 @@ var GmailChecker =
 										localStorage.setItem('date', GmailChecker.inbox[0].date);
 									}	
 								}
-								catch(err)
-								{
-									// Nothing to see ... move along
-								}
 							}
 							
 							// Update button in all windows
@@ -277,12 +333,12 @@ var GmailChecker =
 							for(var i in safari.extension.toolbarItems)
 							{
 								safari.extension.toolbarItems[i].badge = unread;
-								safari.extension.toolbarItems[i].image = safari.extension.baseURI + "assets/images/button.png";
+								safari.extension.toolbarItems[i].image = safari.extension.baseURI + 'assets/images/button.png';
 							}
 						}
 					}
 
-					xhr2.open("GET", GmailChecker.baseURL + "mail/feed/atom", true);
+					xhr2.open('GET', GmailChecker.baseURL + 'mail/feed/atom', true);
 
 					xhr2.send(null);
 				}
@@ -297,13 +353,13 @@ var GmailChecker =
 					for(var i in safari.extension.toolbarItems)
 					{
 						safari.extension.toolbarItems[i].badge = 0;
-						safari.extension.toolbarItems[i].image = safari.extension.baseURI + "assets/images/button_faded.png";
+						safari.extension.toolbarItems[i].image = safari.extension.baseURI + 'assets/images/button_faded.png';
 					}
 				}
 			}
 		};
 		
-		xhr1.open("GET", GmailChecker.baseURL + "mail/?view=ac", true);
+		xhr1.open('GET', GmailChecker.baseURL + 'mail/?view=ac', true);
 		
 		xhr1.send(null);
 	},
@@ -347,13 +403,13 @@ var GmailChecker =
 
 			html += '<li>';
 			
-			if(safari.extension.settings.getItem("gravatar"))
+			if(safari.extension.settings.getItem('gravatar'))
 			{
 				html += '<img class="gravatar" src="' + GmailChecker.getAvatar(GmailChecker.inbox[i].email) + '" title="' + GmailChecker.inbox[i].email + '" alt="" />';
 			}
 			
 			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 25) + '</a></span>';
-			html += '<span class="date">' + GmailChecker.dateFormat(date) + '<span class="time"> @ ' + GmailChecker.formatTime(date) + '</span></span>';
+			html += '<span class="date">' + GmailChecker.formatDate(date) + '<span class="time"> @ ' + GmailChecker.formatTime(date) + '</span></span>';
 			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';
 			html += '</li>';
@@ -372,10 +428,15 @@ var GmailChecker =
 	{
 		safari.extension.bars[0].hide(); // Hack to get audio and hover working
 
-		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem("interval"));
+		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem('interval'));
 		
-		safari.application.addEventListener("popover", GmailChecker.updatePopover, true);
-		safari.extension.settings.addEventListener("change", GmailChecker.changeHandler, false);
+		safari.application.addEventListener('command', GmailChecker.commandHandler, false);
+		safari.extension.settings.addEventListener('change', GmailChecker.changeHandler, false);
+
+		if(safari.extension.settings.getItem('enable_popover'))
+		{
+			GmailChecker.addPopover();
+		}
 
 		GmailChecker.checkInbox();
 	}
