@@ -426,8 +426,11 @@ var GmailChecker =
 	
 	init : function()
 	{
-		safari.extension.bars[0].hide(); // Hack to get audio and hover working
-
+		for(var i in safari.extension.bars)
+		{
+			safari.extension.bars[i].hide(); // Hack to get audio and hover working
+		}
+		
 		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem('interval'));
 		
 		safari.application.addEventListener('command', GmailChecker.commandHandler, false);
