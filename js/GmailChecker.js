@@ -74,7 +74,13 @@ var GmailChecker =
 		{
 			if(safari.extension.settings.getItem('enable_popover'))
 			{
-				safari.extension.toolbarItems[0].showPopover();
+				for(var i in safari.extension.toolbarItems)
+				{
+					if(event.target === safari.extension.toolbarItems[i])
+					{
+						safari.extension.toolbarItems[i].showPopover();
+					}
+				}
 			}
 			else
 			{
@@ -433,6 +439,7 @@ var GmailChecker =
 		
 		GmailChecker.intervalId = setInterval(GmailChecker.checkInbox, safari.extension.settings.getItem('interval'));
 		
+		//safari.application.addEventListener('open', GmailChecker.checkInbox, true);
 		safari.application.addEventListener('command', GmailChecker.commandHandler, false);
 		safari.extension.settings.addEventListener('change', GmailChecker.changeHandler, false);
 
