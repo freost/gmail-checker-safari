@@ -300,12 +300,12 @@ var GmailChecker =
 
 							if(xhr2.status == 200)
 							{
-								if(!safari.extension.settings.getItem('enable_popover'))
+								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
+
+								if(!safari.extension.settings.getItem('enable_popover') && unread > 0)
 								{
 									toolTip = new Array();
 								}
-
-								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
 								
 								var emails = xhr2.responseXML.documentElement.getElementsByTagName('entry');
 
@@ -329,7 +329,7 @@ var GmailChecker =
 									}
 								}
 
-								if(!safari.extension.settings.getItem('enable_popover'))
+								if(!safari.extension.settings.getItem('enable_popover') && unread > 0)
 								{
 									toolTip = toolTip.join('\n');
 								}
