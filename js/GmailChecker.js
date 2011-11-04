@@ -302,42 +302,42 @@ var GmailChecker =
 							{
 								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
 
-								if(!safari.extension.settings.getItem('enable_popover') && unread > 0)
+								if(unread > 0)
 								{
-									toolTip = new Array();
-								}
+									if(!safari.extension.settings.getItem('enable_popover'))
+									{
+										toolTip = new Array();
+									}
 								
-								var emails = xhr2.responseXML.documentElement.getElementsByTagName('entry');
+									var emails = xhr2.responseXML.documentElement.getElementsByTagName('entry');
 
-								for(var i = 0; i < Math.min(emails.length, 5); i++)
-								{
-									var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? '(no subject)' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
+									for(var i = 0; i < Math.min(emails.length, 5); i++)
+									{
+										var subject = (emails[i].getElementsByTagName('title')[0].firstChild == null) ? '(no subject)' : emails[i].getElementsByTagName('title')[0].firstChild.nodeValue;
 
-									var name = emails[i].getElementsByTagName('name')[0].firstChild.nodeValue;
+										var name = emails[i].getElementsByTagName('name')[0].firstChild.nodeValue;
 
-									var email = emails[i].getElementsByTagName('email')[0].firstChild.nodeValue.toLowerCase();
+										var email = emails[i].getElementsByTagName('email')[0].firstChild.nodeValue.toLowerCase();
 
-									var url =  emails[i].getElementsByTagName('link')[0].attributes[1].value;
+										var url =  emails[i].getElementsByTagName('link')[0].attributes[1].value;
 
-									var date = emails[i].getElementsByTagName('issued')[0].firstChild.nodeValue;
+										var date = emails[i].getElementsByTagName('issued')[0].firstChild.nodeValue;
 
-									GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
+										GmailChecker.inbox.push({subject:subject, name:name, email:email, date:date, url:url});
+
+										if(!safari.extension.settings.getItem('enable_popover'))
+										{
+											toolTip.push('- ' + GmailChecker.truncate(subject, 50));
+										}
+									}
 
 									if(!safari.extension.settings.getItem('enable_popover'))
 									{
-										toolTip.push('- ' + GmailChecker.truncate(subject, 50));
+										toolTip = toolTip.join('\n');
 									}
-								}
 
-								if(!safari.extension.settings.getItem('enable_popover') && unread > 0)
-								{
-									toolTip = toolTip.join('\n');
-								}
+									// Notify?
 
-								// Notify?
-
-								if(unread > 0)
-								{
 									var lastMessageDate = new Date(localStorage.getItem('date'));
 									var newMessageDate  = new Date(GmailChecker.inbox[0].date);
 
@@ -345,7 +345,7 @@ var GmailChecker =
 									{
 										GmailChecker.notify();
 										localStorage.setItem('date', GmailChecker.inbox[0].date);
-									}	
+									}		
 								}
 							}
 							
