@@ -232,12 +232,12 @@ var GmailChecker =
 					}
 
 					if(windows[wi].tabs[ti].url.indexOf(GmailChecker.baseURL) == 0)
-					{							
+					{
 						windows[wi].activate();
 						
 						windows[wi].tabs[ti].activate();
 
-						if(!safari.extension.settings.getItem('enable_popover') && safari.extension.settings.getItem('enable_popover') && windows[wi].tabs[ti].url != GmailChecker.baseURL + 'mail/u/0/#compose' && windows[wi].tabs[ti].url != url)
+						if(safari.extension.settings.getItem('enable_popover') && windows[wi].tabs[ti].url != GmailChecker.baseURL + 'mail/u/0/#compose' && windows[wi].tabs[ti].url != url)
 						{
 							windows[wi].tabs[ti].url = url;
 						}
