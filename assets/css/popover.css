@@ -14,6 +14,7 @@ a
 {
 	color: #0350a6;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 a:hover

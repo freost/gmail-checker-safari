@@ -431,7 +431,7 @@ var GmailChecker =
 				html += '<img class="gravatar" src="' + GmailChecker.getAvatar(GmailChecker.inbox[i].email) + '" title="' + GmailChecker.inbox[i].email + '" alt="" />';
 			}
 			
-			html += '<span><a href="#" onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 25) + '</a></span>';
+			html += '<span><a onclick="g.GmailChecker.goToGmail(\'' + GmailChecker.inbox[i].url + '\', false)">' + GmailChecker.truncate(GmailChecker.inbox[i].subject, 25) + '</a></span>';
 			html += '<span class="date">' + GmailChecker.formatDate(date) + '<span class="time"> @ ' + GmailChecker.formatTime(date) + '</span></span>';
 			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';

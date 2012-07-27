@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Frederic Grundt Østby</string>
 	<key>Builder Version</key>
-	<string>7534.51.22</string>
+	<string>8536.25</string>
 	<key>CFBundleDisplayName</key>
 	<string>GmailChecker</string>
 	<key>CFBundleIdentifier</key>
@@ -13,9 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.2</string>
+	<string>1.7.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.7.2</string>
+	<string>1.7.3</string>
 	<key>Chrome</key>
 	<dict>
 		<key>Bars</key>

@@ -19,12 +19,12 @@ var updateInbox = function(signedIn){g.GmailChecker.updateInbox(document);};
 <body>
 
 <div id="signed-out" style="display:none">
-<a class="button green" href="#" onclick="g.GmailChecker.goToGmail('', true);">Sign In</a> 
+<a class="button green" onclick="g.GmailChecker.goToGmail('', true);">Sign In</a> 
 </div>
 
 <div id="signed-in">
-<a class="button blue" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#inbox', true);">Inbox</a> 
-<a class="button red" href="#" onclick="g.GmailChecker.goToGmail('mail/u/0/#compose', true);">Compose</a>
+<a class="button blue" onclick="g.GmailChecker.goToGmail('mail/u/0/#inbox', true);">Inbox</a> 
+<a class="button red" onclick="g.GmailChecker.goToGmail('mail/u/0/#compose', true);">Compose</a>
 </div>
 
 <div id="inbox"></div>
