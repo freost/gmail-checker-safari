@@ -197,11 +197,33 @@ var GmailChecker =
 	},
 
 	/**
-	* Plays sound when user receives new email.
+	* Notifies user of new email.
 	*/
 
 	notify : function()
 	{
+		// Visual notification
+
+		if(window.Notification) // Check if browser supports web notification
+		{
+			var notification = new Notification('New Mail', 
+			{
+				'body'    : 'You have new mail',
+				'onclick' : function()
+				{
+					// Send user to inbox and remove notification
+
+					GmailChecker.goToGmail('mail/u/0/#inbox', true);
+
+					this.close();
+				}
+			});
+
+			notification.show();
+		}
+
+		// Audio notification
+
 		if(safari.extension.settings.getItem('enable_audio'))
 		{
 			safari.extension.bars[0].contentWindow.play(AudioData[safari.extension.settings.getItem('audio_file')]);
