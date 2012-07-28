@@ -215,6 +215,7 @@ var GmailChecker =
 			var notification = new Notification('New Mail', 
 			{
 				'body'    : 'You have new mail',
+				'tag'     : 'GmailChecker.safariextension',
 				'onclick' : function()
 				{
 					// Send user to inbox and remove notification
