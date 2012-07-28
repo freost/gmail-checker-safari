@@ -19,6 +19,12 @@ var GmailChecker =
 	signedIn : false,
 
 	/**
+	* Unread count.
+	*/
+
+	count : 0,
+
+	/**
 	* Last 5 messages.
 	*/
 
@@ -322,7 +328,7 @@ var GmailChecker =
 
 							if(xhr2.status == 200)
 							{
-								unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
+								GmailChecker.count = unread = xhr2.responseXML.documentElement.getElementsByTagName('fullcount')[0].firstChild.nodeValue;
 
 								if(unread > 0)
 								{
@@ -424,6 +430,11 @@ var GmailChecker =
 		else
 		{
 			safari.extension.popovers[0].height = 40 + ((67 * GmailChecker.inbox.length) - 7);
+
+			if(GmailChecker.count > GmailChecker.inbox.length)
+			{
+				safari.extension.popovers[0].height += 40;
+			}
 		}
 
 		safari.extension.popovers[0].contentWindow.updateInbox();
@@ -457,6 +468,15 @@ var GmailChecker =
 			html += '<span class="date">' + GmailChecker.formatDate(date) + '<span class="time"> @ ' + GmailChecker.formatTime(date) + '</span></span>';
 			html += '<span class="sender">' + GmailChecker.truncate(GmailChecker.inbox[i].name, 20) + '</span>';
 			html += '<hr style="clear:both" />';
+			html += '</li>';
+		}
+
+		if(GmailChecker.count > GmailChecker.inbox.length)
+		{
+			var diff = GmailChecker.count - GmailChecker.inbox.length;
+
+			html += '<li>';
+			html += '<div id="more"><a onclick="g.GmailChecker.goToGmail(\'mail/u/0/#inbox\', true);">and ' + diff + ' more ' + (diff > 1 ? 'messages' : 'message') + '</a></div>'
 			html += '</li>';
 		}
 

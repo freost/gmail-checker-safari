@@ -141,3 +141,12 @@ a.green
 {
 	display: none;
 }
+
+#more
+{
+	background: #ddd;
+	border-radius:3px;
+	padding: 3px;
+	text-align: center;
+	font-size: 0.9em;
+}
